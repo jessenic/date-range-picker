@@ -117,8 +117,8 @@ export class DateRangePickerComponent implements OnInit {
                 today = dateFns.subWeeks(today, 1);
             default:
             case 'tw':
-                this.fromDate = dateFns.startOfWeek(today);
-                this.toDate = dateFns.endOfWeek(today);
+                this.fromDate = dateFns.startOfWeek(today, { weekStartsOn: this.options.mondayFirst ? 1 : 0 });
+                this.toDate = dateFns.endOfWeek(today, { weekStartsOn: this.options.mondayFirst ? 1 : 0 });
                 break;
             case 'ly':
                 today = dateFns.subYears(today, 1);
