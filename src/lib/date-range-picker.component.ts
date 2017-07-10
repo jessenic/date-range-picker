@@ -17,12 +17,12 @@ export interface IDateRangePickerTexts {
     lastWeek: string;
     thisYear: string;
     lastYear: string;
+    dayNames: string[];
 }
 
 export interface IDateRangePickerOptions {
     minDate?: Date;
     maxDate?: Date;
-    dayNames?: string[];
     mondayFirst?: boolean;
 }
 
@@ -55,7 +55,6 @@ export class DateRangePickerComponent implements OnInit {
             this.options = {
                 maxDate: null,
                 minDate: null,
-                dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
                 mondayFirst: false
             };
         }
@@ -76,7 +75,8 @@ export class DateRangePickerComponent implements OnInit {
                 thisWeek: "This week",
                 lastWeek: "Last week",
                 thisYear: "This year",
-                lastYear: "Last year"
+                lastYear: "Last year",
+                dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
             };
         }
     }
