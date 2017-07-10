@@ -1,4 +1,4 @@
-<div class="yk-dateRange-container" [ngClass]="{
+﻿<div class="yk-dateRange-container" [ngClass]="{
         'is-active': opened,
         'theme-green': themeColor === 'green',
         'theme-teal': themeColor === 'teal',
@@ -10,7 +10,7 @@
 	<div class="yk-input-container">
 		<div class="yk-input-section" (click)="toggleCalendar('from')" [ngClass]="{'is-active': opened === 'from'}">
 			<span class="yk-label">{{texts.startLabel}}</span>
-			<span class="yk-content">{{datePick?.from | date: 'mediumDate' }}</span>
+			<span class="yk-content">{{fromDate | date: 'mediumDate' }}</span>
 			<span class="yk-icon"><!--<editor-fold desc="Calendar Icon">-->
                 <svg version="1.1" id="calendar_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="100%" height="100%" viewBox="0 0 488.152 488.152" style="enable-background:new 0 0 488.152 488.152;"
@@ -46,7 +46,7 @@
 		</div>
 		<div class="yk-input-section" (click)="toggleCalendar('to')" [ngClass]="{'is-active': opened === 'to'}">
 			<span class="yk-label">{{texts.endLabel}}</span>
-			<span class="yk-content">{{datePick?.to | date: 'mediumDate' }}</span>
+			<span class="yk-content">{{toDate | date: 'mediumDate' }}</span>
 			<span class="yk-icon"><!--<editor-fold desc="Calendar Icon">-->
                 <svg version="1.1" id="calendar_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="100%" height="100%" viewBox="0 0 488.152 488.152" style="enable-background:new 0 0 488.152 488.152;"
@@ -116,7 +116,7 @@
 				</div>
 				<div class="yk-calendar-row">
 					<div class="yk-day" *ngFor="let date of dates" [ngClass]="{
-						  'out-focus': date.getMonth() !== moment.getMonth(),
+						  'out-focus': isOutFocus(date),
 						  'is-within-range': isWithinRange(date),
 						  'is-from': isDateRangeFrom(date),
 						  'is-to': isDateRangeTo(date)
@@ -150,7 +150,7 @@
 			<div class="yk-sidebar-inputs">
 				<div class="yk-input-section" (click)="toggleCalendar('from')" [ngClass]="{'is-active': opened === 'from'}">
 					<span class="yk-label">{{texts.startLabel}}</span>
-					<span class="yk-content">{{datePick?.from | date: 'mediumDate' }}</span>
+					<span class="yk-content">{{fromDate | date: 'mediumDate' }}</span>
 					<span class="yk-icon"><!--<editor-fold desc="Calendar Icon">-->
                 <svg version="1.1" id="calendar_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="100%" height="100%" viewBox="0 0 488.152 488.152" style="enable-background:new 0 0 488.152 488.152;"
@@ -186,7 +186,7 @@
 				</div>
 				<div class="yk-input-section" (click)="toggleCalendar('to')" [ngClass]="{'is-active': opened === 'to'}">
 					<span class="yk-label">{{texts.endLabel}}</span>
-					<span class="yk-content">{{datePick?.to | date: 'mediumDate' }}</span>
+					<span class="yk-content">{{toDate | date: 'mediumDate' }}</span>
 					<span class="yk-icon"><!--<editor-fold desc="Calendar Icon">-->
                 <svg version="1.1" id="calendar_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="100%" height="100%" viewBox="0 0 488.152 488.152" style="enable-background:new 0 0 488.152 488.152;"
