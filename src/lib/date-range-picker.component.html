@@ -112,7 +112,7 @@
 			</div>
 			<div class="yk-calendar-content">
 				<div class="yk-calendar-row">
-					<span class="yk-weekday" *ngFor="let day of dayNames">{{ day }}</span>
+					<span class="yk-weekday" *ngFor="let day of options.dayNames">{{ day }}</span>
 				</div>
 				<div class="yk-calendar-row">
 					<div class="yk-day" *ngFor="let date of dates" [ngClass]="{

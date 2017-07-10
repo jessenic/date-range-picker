@@ -22,7 +22,8 @@ export interface IDateRangePickerTexts {
 export interface IDateRangePickerOptions {
     minDate?: Date;
     maxDate?: Date;
-
+    dayNames?: string[];
+    mondayFirst?: boolean;
 }
 
 @Component({
@@ -49,12 +50,13 @@ export class DateRangePickerComponent implements OnInit {
 
     public ngOnInit() {
         this.opened = false;
-        this.dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
         if (this.options == undefined) {
             this.options = {
                 maxDate: null,
-                minDate: null
+                minDate: null,
+                dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                mondayFirst: false
             };
         }
 
@@ -135,7 +137,12 @@ export class DateRangePickerComponent implements OnInit {
     public generateCalendar(): void {
         this.dates = [];
         let firstDate = dateFns.startOfMonth(this.moment);
-        let start = 0 - (dateFns.getDay(firstDate) + 7) % 7;
+        let start = 0;
+        if (this.options.mondayFirst) {
+            start = 0 - (dateFns.getDay(firstDate) + 6) % 7;
+        } else {
+            start = 0 - (dateFns.getDay(firstDate) + 7) % 7;
+        }
         let end = 41 + start; // iterator ending point
 
         for (let i = start; i <= end; i += 1) {
