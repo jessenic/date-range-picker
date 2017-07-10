@@ -238,7 +238,7 @@ $dateRangeContainerH: $base-line-height * 2.5;
         .yk-weekday {
           @include type-setting(-1);
           font-weight: 700;
-          text-align: left;
+          text-align: center;
           color: #999;
           width: calc(100% / 7);
         }
