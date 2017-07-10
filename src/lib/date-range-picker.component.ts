@@ -1,4 +1,4 @@
-/**
+﻿/**
  * date-range-picker.component
  */
 
@@ -7,11 +7,6 @@ import {
     Output
 } from '@angular/core';
 import * as dateFns from 'date-fns';
-
-export interface IDateRange {
-    from: Date;
-    to: Date;
-}
 
 export interface IDateRangePickerTexts {
     startLabel: string;
@@ -24,13 +19,18 @@ export interface IDateRangePickerTexts {
     lastYear: string;
 }
 
+export interface IDateRangePickerOptions {
+    minDate?: Date;
+    maxDate?: Date;
+
+}
+
 @Component({
     selector: 'app-date-range',
     templateUrl: './date-range-picker.component.html',
     styleUrls: ['./date-range-picker.component.scss'],
 })
 export class DateRangePickerComponent implements OnInit {
-
     public opened: false | 'from' | 'to';
     public range: 'tm' | 'lm' | 'lw' | 'tw' | 'ty' | 'ly';
     public moment: Date;
@@ -38,9 +38,11 @@ export class DateRangePickerComponent implements OnInit {
     public dates: Date[];
     @Input() public themeColor: 'green' | 'teal' | 'grape' | 'red' | 'gray';
     @Input() private fromDate: Date;
+    @Output() fromDateChange: EventEmitter<Date> = new EventEmitter<Date>();
     @Input() private toDate: Date;
+    @Output() toDateChange: EventEmitter<Date> = new EventEmitter<Date>();
     @Input() texts: IDateRangePickerTexts;
-    @Output() private dateRangeChange = new EventEmitter<IDateRange>();
+    @Input() options: IDateRangePickerOptions;
 
     constructor(private elementRef: ElementRef) {
     }
@@ -48,6 +50,14 @@ export class DateRangePickerComponent implements OnInit {
     public ngOnInit() {
         this.opened = false;
         this.dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+        if (this.options == undefined) {
+            this.options = {
+                maxDate: null,
+                minDate: null
+            };
+        }
+
         if (this.fromDate &&
             this.toDate) {
             this.moment = new Date(this.fromDate);
@@ -55,7 +65,6 @@ export class DateRangePickerComponent implements OnInit {
         } else {
             this.selectRange('tw');
         }
-
         if (this.texts == null) {
             this.texts = {
                 startLabel: "Start",
@@ -141,7 +150,7 @@ export class DateRangePickerComponent implements OnInit {
             this.fromDate = date;
             if (this.toDate &&
                 dateFns.compareDesc(date, this.toDate) < 1) {
-                this.toDate = null;
+                this.toDate = this.fromDate;
             }
         }
 
@@ -149,7 +158,7 @@ export class DateRangePickerComponent implements OnInit {
             this.toDate = date;
             if (this.fromDate &&
                 dateFns.compareAsc(date, this.fromDate) < 1) {
-                this.fromDate = null;
+                this.fromDate = this.toDate;
             }
         }
         this.emitChange();
@@ -163,11 +172,30 @@ export class DateRangePickerComponent implements OnInit {
     }
 
     private emitChange(): void {
-        this.dateRangeChange.emit({ to: this.toDate, from: this.fromDate });
+        if (this.options.minDate != null && dateFns.compareAsc(this.fromDate, this.options.minDate) < 1) {
+            this.fromDate = this.options.minDate;
+        }
+        if (this.options.maxDate != null && dateFns.compareAsc(this.options.maxDate, this.fromDate) < 1) {
+            this.fromDate = this.options.maxDate;
+        }
+        if (this.options.minDate != null && dateFns.compareAsc(this.toDate, this.options.minDate) < 1) {
+            this.toDate = this.options.minDate;
+        }
+        if (this.options.maxDate != null && dateFns.compareAsc(this.options.maxDate, this.toDate) < 1) {
+            this.toDate = this.options.maxDate;
+        }
+        this.fromDateChange.emit(this.fromDate);
+        this.toDateChange.emit(this.toDate);
     }
 
-    private updateRange(): void {
-
+    private isOutFocus(date: Date): boolean {
+        if (this.options.minDate != null && dateFns.compareAsc(date, this.options.minDate) < 1) {
+            return true;
+        }
+        if (this.options.maxDate != null && dateFns.compareAsc(this.options.maxDate, date) < 1) {
+            return true;
+        }
+        return date.getMonth() !== this.moment.getMonth();
     }
 
     public prevMonth(): void {
