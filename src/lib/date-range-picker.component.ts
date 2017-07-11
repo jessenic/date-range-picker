@@ -38,9 +38,9 @@ export class DateRangePickerComponent implements OnInit {
     public dayNames: string[];
     public dates: Date[];
     @Input() public themeColor: 'green' | 'teal' | 'grape' | 'red' | 'gray';
-    @Input() private fromDate: Date;
+    @Input() public fromDate: Date;
     @Output() fromDateChange: EventEmitter<Date> = new EventEmitter<Date>();
-    @Input() private toDate: Date;
+    @Input() public toDate: Date;
     @Output() toDateChange: EventEmitter<Date> = new EventEmitter<Date>();
     @Input() texts: IDateRangePickerTexts;
     @Input() options: IDateRangePickerOptions;
